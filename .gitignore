@@ -46,6 +46,7 @@ ExportedObj/
 *.mdb
 *.opendb
 *.VC.db
+*.
 
 # Unity3D generated meta files
 *.pidb.meta
@@ -59,7 +60,6 @@ sysinfo.txt
 *.apk
 *.aab
 *.unitypackage
-*.unitypackage.meta
 *.app
 
 # Crashlytics generated file
@@ -71,3 +71,19 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+ 
+SpaceSurvivor/Library/
+SpaceSurvivor/Library/PackageCache/
+SpaceSurvivor/Temp/
+SpaceSurvivor/Logs/
+SpaceSurvivor/Artifacts/
+SpaceSurvivor/Library/Bee/
+SpaceSurvivor/Library/artifacts/
+SpaceSurvivor/UserSettings/Layouts/default-2022.dwlt
+SpaceSurvivor/Build
+/SpaceSurvivor/Assets/Plugins/FMOD/Cache
+SpaceSurvivor/fmod_editor.log
+/SpaceSurvivor/UserSettings
+SpaceSurvivor/Assets/Plugins/FMOD/platforms/mac/lib/fmodstudio.bundle/Contents/Info.plist
+SpaceSurvivor/Assets/Plugins/FMOD/platforms/mac/lib/fmodstudioL.bundle/Contents/Info.plist
+SpaceSurvivor/Assets/Plugins/FMOD/platforms/mac/lib/resonanceaudio.bundle/Contents/Info.plist
