@@ -1,4 +1,5 @@
 using System;
+using Cinemachine;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
@@ -17,6 +18,7 @@ public class PlayerSetup : MonoBehaviour
         Player.enabled = true;
         PlayerCamera.SetActive(true);
         PlayerVirtualCamera.SetActive(true);
+        PlayerVirtualCamera.GetComponent<CinemachineVirtualCamera>().Follow = Player.gameObject.transform ;
     }
 
     /*[PunRPC]

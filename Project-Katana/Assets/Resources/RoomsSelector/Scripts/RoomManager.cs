@@ -18,6 +18,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public Button buttonCreate;
     public GameObject Content;
     public GameObject RoomItemPrefab;
+    public GameObject Loader;
 
     private List<RoomInfo> cachedRoomList = new List<RoomInfo>();
     private string RoomToCreateName = ""; 
@@ -28,6 +29,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         Instance = this;
 
         buttonCreate.interactable = false;
+        Loader.gameObject.SetActive(true);
     }
 
     private IEnumerator Start()
@@ -58,6 +60,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         {
             cachedRoomList = roomList;
             buttonCreate.interactable = true;
+            Loader.gameObject.SetActive(false);
         }
         else
         {
@@ -102,6 +105,9 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
             roomItem.GetComponent<RoomItem>().RoomToJoinOfItem = room.Name;
         }
+
+        buttonCreate.interactable = true;
+        Loader.gameObject.SetActive(false);
     }
     public void GameToCreateNameChanged(String Name)
     {

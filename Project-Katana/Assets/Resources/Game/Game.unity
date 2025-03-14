@@ -453,7 +453,7 @@ GameObject:
   - component: {fileID: 1472298759}
   - component: {fileID: 1472298758}
   - component: {fileID: 1472298760}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -968,11 +968,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8186117652318475437, guid: f7aaf1295b3a4ea48947207b1e3d4119, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.91
+      value: 12.83
       objectReference: {fileID: 0}
     - target: {fileID: 8186117652318475437, guid: f7aaf1295b3a4ea48947207b1e3d4119, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.77
+      value: 0.64
       objectReference: {fileID: 0}
     - target: {fileID: 8186117652318475437, guid: f7aaf1295b3a4ea48947207b1e3d4119, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1061,6 +1061,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerPrefab: {fileID: 6432753169805328920, guid: 99473a80f2b723248be41a552cd1a960, type: 3}
+  CamsPrefab: {fileID: 4954981448498500939, guid: fcff5a2ad4fe13d44962569a91241903, type: 3}
   SpawnPoints:
   - {fileID: 978332128}
   - {fileID: 1962453513}

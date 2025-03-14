@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
     [Header("Player & Spawning")]
     public GameObject PlayerPrefab;
+    public GameObject CamsPrefab;
     public Transform[] SpawnPoints;
 
     [Header("UI")]
@@ -47,10 +48,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         RoomCam.SetActive(false);
         GameUI.SetActive(true);
 
-        Debug.Log("Instanciate");
         Vector3 SpawnPos = SpawnPoints[Random.Range(0, SpawnPoints.Length)].position;
 
         GameObject player = PhotonNetwork.Instantiate(PlayerPrefab.name, SpawnPos, Quaternion.identity);
+
+        GameObject Cam = PhotonNetwork.Instantiate(CamsPrefab.name, SpawnPos, Quaternion.identity);
+
+        player.GetComponent<PlayerSetup>().PlayerCamera = Cam.transform.GetChild(0).gameObject;
+        player.GetComponent<PlayerSetup>().PlayerVirtualCamera = Cam.transform.GetChild(1).gameObject;
 
         player.GetComponent<PlayerSetup>().isLocalPlayer();
 
