@@ -1,12 +1,14 @@
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
+using Cinemachine;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
     [Header("Player & Spawning")]
     public GameObject PlayerPrefab;
     public GameObject CamsPrefab;
+    public PolygonCollider2D BoundingShape;
     public Transform[] SpawnPoints;
 
     [Header("UI")]
@@ -19,7 +21,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.IsConnectedAndReady)
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
         }
 
         string RoomNameToJoin = PlayerPrefs.GetString("RoomNameToJoinOrCreate");
@@ -28,8 +30,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             RoomNameToJoin = "Room" + Random.Range(0,999);
         }
-
-        PhotonNetwork.JoinOrCreateRoom(RoomNameToJoin, null, null);
+        if (PhotonNetwork.IsConnectedAndReady)
+        {
+            PhotonNetwork.JoinOrCreateRoom(RoomNameToJoin, null, null);
+        }
 
         connectingUI.SetActive(true);
 
@@ -55,7 +59,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         GameObject Cam = PhotonNetwork.Instantiate(CamsPrefab.name, SpawnPos, Quaternion.identity);
 
         player.GetComponent<PlayerSetup>().PlayerCamera = Cam.transform.GetChild(0).gameObject;
-        player.GetComponent<PlayerSetup>().PlayerVirtualCamera = Cam.transform.GetChild(1).gameObject;
+        GameObject VirtualCamGameobject = player.GetComponent<PlayerSetup>().PlayerVirtualCamera = Cam.transform.GetChild(1).gameObject;
+        CinemachineConfiner2D VirtualCam = VirtualCamGameobject.GetComponent<CinemachineConfiner2D>();
+        VirtualCam.m_BoundingShape2D = BoundingShape;
 
         player.GetComponent<PlayerSetup>().isLocalPlayer();
 
