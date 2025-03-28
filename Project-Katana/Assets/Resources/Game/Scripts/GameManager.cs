@@ -6,16 +6,21 @@ using Cinemachine;
 public class GameManager : MonoBehaviourPunCallbacks
 {
     [Header("Player & Spawning")]
-    public GameObject PlayerPrefab;
     public GameObject CamsPrefab;
     public PolygonCollider2D BoundingShape;
-    public Transform[] SpawnPoints;
+    public GameObject[] SpawnPoints;
 
     [Header("UI")]
     public string PlayerName;
     public GameObject RoomCam;
     public GameObject connectingUI;
     public GameObject GameUI;
+    public GameObject CharacterSelectUI;
+    public GameObject MapSelectUI;
+
+
+    private GameObject CharacterSelected;
+    private GameObject MapSelected;
 
     private void Awake()
     {
@@ -35,6 +40,9 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonNetwork.JoinOrCreateRoom(RoomNameToJoin, null, null);
         }
 
+        GameUI.SetActive(false);
+        CharacterSelectUI.SetActive(false);
+        MapSelectUI.SetActive(false);
         connectingUI.SetActive(true);
 
     }
@@ -44,7 +52,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         base.OnJoinedRoom();
 
         connectingUI.SetActive(false);
-        SpawnPlayer();
+        CharacterSelectUI.SetActive(true);
+
     }
 
     public void SpawnPlayer()
@@ -52,9 +61,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         RoomCam.SetActive(false);
         GameUI.SetActive(true);
 
-        Vector3 SpawnPos = SpawnPoints[Random.Range(0, SpawnPoints.Length)].position;
+        Vector3 SpawnPos = SpawnPoints[Random.Range(0, SpawnPoints.Length)].transform.position;
 
-        GameObject player = PhotonNetwork.Instantiate(PlayerPrefab.name, SpawnPos, Quaternion.identity);
+        GameObject player = PhotonNetwork.Instantiate(CharacterSelected.name, SpawnPos, Quaternion.identity);
 
         GameObject Cam = PhotonNetwork.Instantiate(CamsPrefab.name, SpawnPos, Quaternion.identity);
 
@@ -66,6 +75,30 @@ public class GameManager : MonoBehaviourPunCallbacks
         player.GetComponent<PlayerSetup>().isLocalPlayer();
 
         //player.GetComponent<PhotonView>().RPC("SetNickName", RpcTarget.AllBuffered, PlayerName);
+
+    }
+
+    public void SelectCharacter(GameObject PrefabCharacter)
+    {
+        CharacterSelected = PrefabCharacter;
+        CharacterSelectUI.SetActive(false);
+        MapSelectUI.SetActive(true);
+    }
+
+    public void SelectMap(GameObject MapPrefab)
+    {
+        MapSelected = MapPrefab;
+        MapSelectUI.SetActive(false);
+        GameUI.SetActive(true);
+        SpawnMap();
+        SpawnPlayer();
+    }
+
+    public void SpawnMap()
+    {
+        GameObject Map = PhotonNetwork.Instantiate(MapSelected.name, Vector3.zero, Quaternion.identity);
+        SpawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+        BoundingShape = GameObject.FindGameObjectWithTag("CamLimiter").GetComponent<PolygonCollider2D>();
 
     }
 }

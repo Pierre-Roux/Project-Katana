@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     public LayerMask whatIsLayerGround;
 
     private float Health;
-    private float isDead;
+    private bool isDead;
     private bool isFacingLeft;
     private Rigidbody2D rb;
     private float DirectionX;
@@ -33,45 +33,57 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Facing Charactere
-        DirectionX = Input.GetAxisRaw("Horizontal");
-        if (DirectionX == -1f && isFacingLeft == false)
+        if (!isDead)
         {
-            transform.rotation = Quaternion.Euler(transform.rotation.x, 180f, transform.rotation.z);
-            SetFacing(true);
-        }
-        else if (DirectionX == 1f && isFacingLeft == true)
-        {
-            transform.rotation = Quaternion.Euler(transform.rotation.x, 0f, transform.rotation.z);
-            SetFacing(false);
-        }
+            // Facing Charactere
+            DirectionX = Input.GetAxisRaw("Horizontal");
+            if (DirectionX == -1f && isFacingLeft == false)
+            {
+                transform.rotation = Quaternion.Euler(transform.rotation.x, 180f, transform.rotation.z);
+                SetFacing(true);
+            }
+            else if (DirectionX == 1f && isFacingLeft == true)
+            {
+                transform.rotation = Quaternion.Euler(transform.rotation.x, 0f, transform.rotation.z);
+                SetFacing(false);
+            }
 
-        isGrounded = Physics2D.OverlapCircle(groundCheckPosition.transform.position, 0.3f, whatIsLayerGround);
+            isGrounded = Physics2D.OverlapCircle(groundCheckPosition.transform.position, 0.3f, whatIsLayerGround);
 
-        Debug.Log(isGrounded);
+            Debug.Log(isGrounded);
 
-        if (Input.GetKeyDown("space"))
-        {
+            if (Input.GetKeyDown("space"))
+            {
+                if (isGrounded)
+                {
+                    rb.velocity = Vector2.up * JumpForce;
+                }
+                else if (doubleJumpCounter > 0)
+                {
+                    rb.velocity = Vector2.up * JumpForce;
+                    doubleJumpCounter--;
+                }
+            }
+
             if (isGrounded)
             {
-                rb.velocity = Vector2.up * JumpForce;
+                doubleJumpCounter = nbDoubleJump;
             }
-            else if (doubleJumpCounter > 0)
-            {
-                rb.velocity = Vector2.up * JumpForce;
-                doubleJumpCounter--;
-            }
-        }
 
-        if (isGrounded)
-        {
-            doubleJumpCounter = nbDoubleJump;
+            // attack
+            if (Input.GetMouseButtonDown(0))
+            {
+                StartAnimSwing();
+            }
         }
     }
 
     void FixedUpdate()
     {
-        rb.position += new Vector2(DirectionX * speed * Time.deltaTime, rb.velocity.y);
+        if (!isDead)
+        {
+            rb.position += new Vector2(DirectionX * speed * Time.deltaTime, rb.velocity.y);
+        }
     }
 
     void OnDrawGizmos()
@@ -82,5 +94,11 @@ public class Player : MonoBehaviour
     public void SetFacing(bool FacingLeft)
     {
         isFacingLeft = FacingLeft;
+    }
+
+    void StartAnimSwing()
+    {
+        // ici il va falloir activer l'anim d'attaque de spine 
+        //animator.SetTrigger("attack");
     }
 }
