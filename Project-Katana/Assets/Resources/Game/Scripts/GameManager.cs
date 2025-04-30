@@ -90,7 +90,15 @@ public class GameManager : MonoBehaviourPunCallbacks
         MapSelected = MapPrefab;
         MapSelectUI.SetActive(false);
         GameUI.SetActive(true);
-        SpawnMap();
+        if (!GameObject.FindWithTag("Map"))
+        {
+            SpawnMap();
+        }
+        else
+        {
+            SpawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+            BoundingShape = GameObject.FindGameObjectWithTag("CamLimiter").GetComponent<PolygonCollider2D>();
+        }
         SpawnPlayer();
     }
 
